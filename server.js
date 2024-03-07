@@ -1,72 +1,26 @@
 const express = require("express");
 const app = express();
 const db = require("./db");
-const Person = require("./models/person");
-const Menu = require("./models/menu");
 
+// body parser - to parse the data
 const bodyParser = require("body-parser");
-const menu = require("./models/menu");
 app.use(bodyParser.json());
 
+// Home api route
 app.get("/", function (req, res) {
-  res.send("Hello Saurabh");
+  res.send("Hello....  Welcome to My Hotel");
 });
 
-// Post Method for Person
-app.post("/person", async (req, res) => {
-  try {
-    const data = req.body;
-    const newPerson = new Person(data);
-    //save new person to database
+//middelwares
+//Route for person
+const personRoute = require("./routes/personsRoute");
+app.use("/person", personRoute);
 
-    const response = await newPerson.save();
-    console.log("data saved");
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//Route for Menu
+const menuRoute = require("./routes/menuRoutes");
+app.use("/menu", menuRoute);
 
-//GET Metehod to get person info
-app.get("/person", async (req, res) => {
-  try {
-    const data = await Person.find();
-    console.log("data fetched");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
-
-//Post for Menu
-app.post("/menu", async (req, res) => {
-  try {
-    const data = req.body;
-    const newMenu = new Menu(data);
-    //save new person to database
-
-    const response = await newMenu.save();
-    console.log("data saved");
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
-
-//GET Metehod to get Menu info
-app.get("/menu", async (req, res) => {
-  try {
-    const data = await Menu.find();
-    console.log("data fetched");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
+//port listning
 app.listen(3001, () => {
   console.log("Listning to port 3001");
 });
