@@ -1,34 +1,12 @@
-// const mongoose = require("mongoose");
-//Define Mongpdb Connection URL
-// // const mongoURL = "mongodb://localhost:27017/Demo1";
-// const mongoURL = "mongodb://0.0.0.0:27017/Demo1";
-
-// //set up MongoDB Connection
-// mongoose.connect(mongoURL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// //Mongoose Maintain a default connection objecet
-// const db = mongoose.connection;
-
-// db.on("connceted", () => {
-//   console.log("Mongo Connected");
-// });
-
-// db.on("error", (err) => {
-//   console.log("Mongo Error", err);
-// });
-
-// db.on("disconnceted", () => {
-//   console.log("Mongo disConnected");
-// });
-
-// //export data base
-// module.exports = db;
-
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://0.0.0.0:27017/Demo1", { useNewUrlParser: true });
+require("dotenv").config();
+
+// const mongoURL =
+//   "mongodb+srv://Saurav123:Saurav%40123@cluster1.fgbpbzn.mongodb.net/"; // this is atlaas mongo data
+const mongoURL = process.env.LOCAL_URL; //local monoDb
+// const mongoURL = process.env.MONGODB_URL;
+mongoose.connect(mongoURL, { useNewUrlParser: true });
+
 var conn = mongoose.connection;
 conn.on("connected", function () {
   console.log("database is connected successfully");
@@ -38,3 +16,5 @@ conn.on("disconnected", function () {
 });
 conn.on("error", console.error.bind(console, "connection error:"));
 module.exports = conn;
+
+//mongo pass = Saurav@123 but @ = %23
