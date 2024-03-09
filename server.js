@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
-const LocalAuth = passport.authenticate("local", { session: false });
+const LocalAuth = passport.authenticate("local", { session: false }); //Middelware for auth for username and password
 
 // Home api route
 app.get("/", LocalAuth, function (req, res) {
